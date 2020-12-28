@@ -12,6 +12,6 @@ public class Car extends JComponent {
         g2.setStroke(new BasicStroke(4));
         String imageURL = "car.png";
         Image image = Toolkit.getDefaultToolkit().getImage(imageURL);
-        g2.drawImage(image, 5, 5, this);
+        g2.drawImage(image, 150, 600, 150,150, this);
     }
 }
