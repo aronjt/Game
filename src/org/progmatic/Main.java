@@ -12,6 +12,7 @@ public class Main {
         frame.setTitle("RaceCar");
         frame.setBackground(Color.black);
         frame.setResizable(false);
+        frame.add(new Car());
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
