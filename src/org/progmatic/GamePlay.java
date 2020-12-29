@@ -10,22 +10,37 @@ import java.awt.event.KeyListener;
 public class GamePlay extends JPanel implements ActionListener {
 
     private PlayerListener playerListener;
+    private RestartListener restartListener;
+
     private Image player;
     private int playerX = 180;
     private int playerY = 600;
 
     private Image police;
     private int policeX = 180;
-    private int policeY = 10;
+    private int policeY = 0;
+
+    private Image tank;
+    private int tankX = 10;
+    private int tankY = 330;
+
+    private Image explosion;
+    private int explosionX;
+    private int explosionY;
+
+    private boolean play = true;
+    private boolean loss = false;
 
     private Timer timer;
-    private int delay = 300;
+    private int delay = 200;
 
     private int score = 0;
 
     public GamePlay(){
         playerListener = new PlayerListener();
+        restartListener = new RestartListener();
         addKeyListener(playerListener);
+        addKeyListener(restartListener);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
         timer = new Timer(delay, this);
@@ -34,24 +49,12 @@ public class GamePlay extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (!(policeY > 800)) {
-            policeY += 20;
-        } else {
-            policeY = 10;
-            int random = (int)(Math.random()*3);
-            if (random == 0) {
-                policeX = 10;
-            } else if (random == 1) {
-                policeX = 350;
-            }
-            score += 10;
-        }
+
         repaint();
     }
 
     @Override
     public void paint(Graphics g) {
-        // play background
         g.setColor(Color.gray);
         g.fillRect(0, 0, 500, 800);
 
@@ -73,23 +76,80 @@ public class GamePlay extends JPanel implements ActionListener {
         g.setColor(Color.white);
         g.fillRect(333, 610, 10, 100);
 
-        player = Toolkit.getDefaultToolkit().getImage("car.png");
-        g.drawImage(player, playerX, playerY, 150, 150, this);
+        if (play) {
+            player = Toolkit.getDefaultToolkit().getImage("car.png");
+            g.drawImage(player, playerX, playerY, 150, 150, this);
 
-        police = Toolkit.getDefaultToolkit().getImage("policecar.jpg");
-        g.drawImage(police, policeX, policeY, 150, 150, this);
+            police = Toolkit.getDefaultToolkit().getImage("policecar.jpg");
+            g.drawImage(police, policeX, policeY, 150, 150, this);
 
-        g.setColor(Color.white);
-        g.setFont(new Font("serif", Font.BOLD, 20));
-        g.drawString("Score: " + score, 400, 30);
+            tank = Toolkit.getDefaultToolkit().getImage("tank.png");
+            g.drawImage(tank, tankX, tankY, 150, 150, this);
+
+            if (!(policeY > 800)) {
+                policeY += 20;
+            } else {
+                policeY = 10;
+                int random = (int)(Math.random()*3);
+                if (random == 0) {
+                    policeX = 10;
+                } else if (random == 1) {
+                    policeX = 350;
+                }
+                score += 10;
+            }
+
+            if (!(tankY > 800)) {
+                tankY += 20;
+            } else {
+                tankY = 10;
+                int random = (int)(Math.random()*3);
+                if (random == 0) {
+                    tankX = 180;
+                } else if (random == 1) {
+                    tankX = 350;
+                }
+                score += 10;
+            }
+
+            if (policeX == playerX && policeY + 150 >= playerY) {
+                explosionX = playerX;
+                explosionY = playerY;
+                play = false;
+                loss = true;
+            }
+
+            if (tankX == playerX && tankY + 150 >= playerY) {
+                explosionX = playerX;
+                explosionY = playerY;
+                play = false;
+                loss = true;
+            }
+
+            g.setColor(Color.white);
+            g.setFont(new Font("serif", Font.BOLD, 20));
+            g.drawString("Score: " + score, 400, 30);
+        }
+
+        if (loss) {
+            explosion = Toolkit.getDefaultToolkit().getImage("explosion.jpg");
+            g.drawImage(explosion, explosionX, explosionY, 150, 150, this);
+        }
+
+        if (loss) {
+            g.setColor(Color.red);
+            g.setFont(new Font("serif", Font.BOLD, 30));
+            g.drawString("Vesztettél", 190, 350);
+            g.drawString("Elért pont: " + score, 170, 400);
+            g.setFont(new Font("serif", Font.BOLD, 22));
+            g.drawString("Újraindításhoz nyomd meg a SPACE gombot", 25, 575);
+        }
     }
 
     private class PlayerListener implements KeyListener {
 
         @Override
-        public void keyTyped(KeyEvent e) {
-
-        }
+        public void keyTyped(KeyEvent e) { }
 
         @Override
         public void keyPressed(KeyEvent e) {
@@ -103,12 +163,32 @@ public class GamePlay extends JPanel implements ActionListener {
                     playerX -= 170;
                 }
             }
+        }
+        @Override
+        public void keyReleased(KeyEvent e) { }
+    }
 
+    private class RestartListener implements KeyListener{
+
+        @Override
+        public void keyTyped(KeyEvent e) { }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                policeX = 180;
+                policeY = 0;
+                tankX = 10;
+                tankY = 330;
+                playerX = 180;
+                playerY = 600;
+                score = 0;
+                play = true;
+                loss = false;
+            }
         }
 
         @Override
-        public void keyReleased(KeyEvent e) {
-
-        }
+        public void keyReleased(KeyEvent e) { }
     }
 }
