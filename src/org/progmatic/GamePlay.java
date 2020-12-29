@@ -22,11 +22,11 @@ public class GamePlay extends JPanel implements ActionListener {
 
     private Image tank;
     private int tankX = 10;
-    private int tankY = 330;
+    private int tankY = 500;
 
     private Image helicopter;
     private int helicopterX;
-    private int helicopterY = -120;
+    private int helicopterY = -70;
 
     private Image explosion;
     private int explosionX;
@@ -249,10 +249,10 @@ public class GamePlay extends JPanel implements ActionListener {
                 policeX = 180;
                 policeY = 0;
                 tankX = 10;
-                tankY = 330;
+                tankY = 500;
                 playerX = 180;
                 playerY = 600;
-                helicopterY = -120;
+                helicopterY = -70;
                 score = 0;
                 play = true;
                 loss = false;

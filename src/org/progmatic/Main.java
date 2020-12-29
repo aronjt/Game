@@ -14,7 +14,6 @@ public class Main {
         frame.setResizable(false);
         frame.add(new GamePlay());
        // frame.add(new Car());
-
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
