@@ -24,12 +24,18 @@ public class GamePlay extends JPanel implements ActionListener {
     private int tankX = 10;
     private int tankY = 330;
 
+    private Image helicopter;
+    private int helicopterX;
+    private int helicopterY = -120;
+
     private Image explosion;
     private int explosionX;
     private int explosionY;
 
     private boolean play = true;
     private boolean loss = false;
+
+    int rnd = (int)(Math.random()*2);
 
     private Timer timer;
     private int delay = 200;
@@ -49,7 +55,6 @@ public class GamePlay extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
         repaint();
     }
 
@@ -86,10 +91,12 @@ public class GamePlay extends JPanel implements ActionListener {
             tank = Toolkit.getDefaultToolkit().getImage("tank.png");
             g.drawImage(tank, tankX, tankY, 150, 150, this);
 
+            helicopter = Toolkit.getDefaultToolkit().getImage("helicopter.png");
+
             if (!(policeY > 800)) {
                 policeY += 20;
             } else {
-                policeY = 10;
+                policeY = -120;
                 int random = (int)(Math.random()*3);
                 if (random == 0) {
                     policeX = 10;
@@ -102,7 +109,7 @@ public class GamePlay extends JPanel implements ActionListener {
             if (!(tankY > 800)) {
                 tankY += 20;
             } else {
-                tankY = 10;
+                tankY = -120;
                 int random = (int)(Math.random()*3);
                 if (random == 0) {
                     tankX = 180;
@@ -110,6 +117,62 @@ public class GamePlay extends JPanel implements ActionListener {
                     tankX = 350;
                 }
                 score += 10;
+            }
+
+            switch (score) {
+                case 60 -> {
+                    timer.setDelay(150);
+                    g.setFont(new Font("serif", Font.BOLD, 25));
+                    g.drawString("Level 2", 200, 400);
+                }
+                case 120 -> {
+                    timer.setDelay(125);
+                    g.setFont(new Font("serif", Font.BOLD, 25));
+                    g.drawString("Level 3", 200, 400);
+                }
+                case 160 -> {
+                    timer.setDelay(100);
+                    g.setFont(new Font("serif", Font.BOLD, 25));
+                    g.drawString("Level 4", 200, 400);
+                }
+                case 200 -> {
+                    timer.setDelay(75);
+                    g.setFont(new Font("serif", Font.BOLD, 25));
+                    g.drawString("Level 5", 200, 400);
+                }
+            }
+
+            if (score >= 60) {
+                if (policeX == 10) {
+                    if (rnd == 0) {
+                        helicopterX = 180;
+                    } else {
+                        helicopterX = 350;
+                    }
+                } else if (policeX == 180) {
+                    if (rnd == 0) {
+                        helicopterX = 10;
+                    } else {
+                        helicopterX = 350;
+                    }
+                } else {
+                    if (rnd == 0) {
+                        helicopterX = 10;
+                    } else {
+                        helicopterX = 180;
+                    }
+                }
+                g.drawImage(helicopter, helicopterX, helicopterY, 150, 150, this);
+            }
+
+            if (score >= 60) {
+                if (!(helicopterY > 800)) {
+                    helicopterY += 20;
+                } else {
+                    helicopterY = -120;
+                    score += 10;
+                    rnd = (int) (Math.random() * 2);
+                }
             }
 
             if (policeX == playerX && policeY + 140 >= playerY && policeY <= playerY + 140) {
@@ -120,6 +183,13 @@ public class GamePlay extends JPanel implements ActionListener {
             }
 
             if (tankX == playerX && tankY + 140 >= playerY && tankY <= playerY + 140) {
+                explosionX = playerX;
+                explosionY = playerY;
+                play = false;
+                loss = true;
+            }
+
+            if (helicopterX == playerX && helicopterY + 140 >= playerY && helicopterY <= playerY + 140) {
                 explosionX = playerX;
                 explosionY = playerY;
                 play = false;
@@ -182,6 +252,7 @@ public class GamePlay extends JPanel implements ActionListener {
                 tankY = 330;
                 playerX = 180;
                 playerY = 600;
+                helicopterY = -120;
                 score = 0;
                 play = true;
                 loss = false;
