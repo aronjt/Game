@@ -112,14 +112,14 @@ public class GamePlay extends JPanel implements ActionListener {
                 score += 10;
             }
 
-            if (policeX == playerX && policeY + 130 >= playerY && policeY <= playerY) {
+            if (policeX == playerX && policeY + 140 >= playerY && policeY <= playerY + 140) {
                 explosionX = playerX;
                 explosionY = playerY;
                 play = false;
                 loss = true;
             }
 
-            if (tankX == playerX && tankY + 130 >= playerY && tankY <= playerY) {
+            if (tankX == playerX && tankY + 140 >= playerY && tankY <= playerY + 140) {
                 explosionX = playerX;
                 explosionY = playerY;
                 play = false;
