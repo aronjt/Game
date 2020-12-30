@@ -85,7 +85,7 @@ public class GamePlay extends JPanel implements ActionListener {
             player = Toolkit.getDefaultToolkit().getImage("car.png");
             g.drawImage(player, playerX, playerY, 150, 150, this);
 
-            police = Toolkit.getDefaultToolkit().getImage("policecar.jpg");
+            police = Toolkit.getDefaultToolkit().getImage("policecar.png");
             g.drawImage(police, policeX, policeY, 150, 150, this);
 
             tank = Toolkit.getDefaultToolkit().getImage("tank.png");
@@ -202,7 +202,7 @@ public class GamePlay extends JPanel implements ActionListener {
         }
 
         if (loss) {
-            explosion = Toolkit.getDefaultToolkit().getImage("explosion.jpg");
+            explosion = Toolkit.getDefaultToolkit().getImage("explosion.png");
             g.drawImage(explosion, explosionX, explosionY, 150, 150, this);
         }
 
