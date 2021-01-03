@@ -254,6 +254,7 @@ public class GamePlay extends JPanel implements ActionListener {
                 playerY = 600;
                 helicopterY = -70;
                 score = 0;
+                timer.setDelay(200);
                 play = true;
                 loss = false;
             }
